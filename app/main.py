@@ -1,5 +1,6 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, HTTPException
 from .data import load_dataset
+from . import data
 
 app = FastAPI()
 
@@ -15,5 +16,11 @@ async def upload_data(file: UploadFile):
   contents = await file.read()
   metadata = load_dataset(contents)
   return metadata
+
+@app.get("/data/stats")
+async def get_stats():
+  if data.dataset is None:
+    raise HTTPException(status_code=404, detail="Gotta have a dataset uploaded")
+  return data.dataset.describe().to_dict()
 
 
