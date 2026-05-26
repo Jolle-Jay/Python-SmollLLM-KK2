@@ -13,7 +13,7 @@ async def upload_data(file: UploadFile):
     raise HTTPException(status_code=400, detail="Gotta have a CSV duuuude")
   
   contents = await file.read()
-  load_dataset(contents)
-  return {"message": "File uploaded mafaggah"}
+  metadata = load_dataset(contents)
+  return metadata
 
 
