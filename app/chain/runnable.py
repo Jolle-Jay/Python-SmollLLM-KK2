@@ -10,3 +10,29 @@ class Runnable(BaseModel, Generic[I, O]):
 
   def invoke(self, data: I) -> O:
     return NotImplementedError("Subclasses must implement invoke")
+  
+  def __or__(self, other: Any) -> 'RunnableSequence':
+    if isinstance(other, Runnable):
+      return RunnableSequence.model_construct(first=self, second=other)
+    if callable(other):
+      return RunnableSequence(first=self, second=RunnableLambda.model_construct
+                            (func=other, name=other.__name__))
+    return NotImplementedError
+  
+  def __ror__(self, other: Any) -> Any:
+    if callable(other):
+      return RunnableSequence (first=RunnableLambda(func=other), second=self, name=other.__name__)
+    return NotImplementedError
+  
+  class RunnableLambda(Runnable[I, O]):
+    func: Callable[I, O]
+
+    def invoke(self, data: I) -> O:
+      return self.func(data)
+    
+  class RunnableSequence(Runnable[I, O], Generic[I, M, O]):
+    first: SerializeAsAny[Runnable[I, M]]
+    second: SerializeAsAny[Runnable[M, O]]
+
+    def invoke(self, data: I) -> O:
+      return self.second.invoke(self.first.invoke(data))
