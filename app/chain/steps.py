@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from .runnable import Runnable
 
 
 
@@ -18,3 +19,8 @@ class ResponseParserOutput(BaseModel):
   question: str
   answer: str
   model: str
+
+class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
+  def invoke(self, data: PromptBuilderInput) -> PromptBuilderOutput:
+    prompt = f"{prompt}"
+    return PromptBuilderOutput(prompt=prompt)
