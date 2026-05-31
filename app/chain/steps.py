@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from .runnable import Runnable
-from .pipeline import Pipeline
+from transformers import pipeline
 
 
 class PromptBuilderInput(BaseModel):
