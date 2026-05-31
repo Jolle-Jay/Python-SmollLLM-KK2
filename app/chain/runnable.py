@@ -24,15 +24,15 @@ class Runnable(BaseModel, Generic[I, O]):
       return RunnableSequence (first=RunnableLambda(func=other), second=self, name=other.__name__)
     return NotImplementedError
   
-  class RunnableLambda(Runnable[I, O]):
-    func: Callable[I, O]
+class RunnableLambda(Runnable[I, O]):
+  func: Callable[I, O]
 
-    def invoke(self, data: I) -> O:
-      return self.func(data)
+  def invoke(self, data: I) -> O:
+    return self.func(data)
     
-  class RunnableSequence(Runnable[I, O], Generic[I, M, O]):
-    first: SerializeAsAny[Runnable[I, M]]
-    second: SerializeAsAny[Runnable[M, O]]
+class RunnableSequence(Runnable[I, O], Generic[I, M, O]):
+  first: SerializeAsAny[Runnable[I, M]]
+  second: SerializeAsAny[Runnable[M, O]]
 
-    def invoke(self, data: I) -> O:
-      return self.second.invoke(self.first.invoke(data))
+  def invoke(self, data: I) -> O:
+    return self.second.invoke(self.first.invoke(data))
