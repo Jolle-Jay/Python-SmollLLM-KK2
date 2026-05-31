@@ -9,7 +9,7 @@ class PromptBuilderInput(BaseModel):
 
 
 class PromptBuilderOutput(BaseModel):
-  prompt: str
+  prompt: list[dict]
   question: str
 
 class LLMRunnerOutput(BaseModel):
@@ -29,11 +29,15 @@ class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
     
     Fråga: {data.question}
 
-    Svar:"""
+    Svar:
+    """
 
 
     return PromptBuilderOutput(
-      prompt=prompt,
+      prompt=[
+        {"role": "system", "content": "Du är en datanalytiker, Svara kortfattat på svenska"},
+        {"role": "user", "content": f"Svara på {data.stats} och din fråga kommer att vara {data.question}"}
+      ],
       question=data.question
       )
   
@@ -41,7 +45,8 @@ class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput ]):
   def invoke(self, data: PromptBuilderOutput) -> LLMRunnerOutput:
     pipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-135M-Instruct")
     result = pipe(data.prompt, max_new_tokens=200)
-    return LLMRunnerOutput(raw_text=result[0]["generated_text"], question=data.question)
+    print(result)
+    return LLMRunnerOutput(raw_text=result[0]["generated_text"][-1]["content"], question=data.question)
   
 class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
   def invoke(self, data: LLMRunnerOutput) -> ResponseParserOutput:
