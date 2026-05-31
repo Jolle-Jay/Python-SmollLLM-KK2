@@ -52,6 +52,6 @@ class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
   def invoke(self, data: LLMRunnerOutput) -> ResponseParserOutput:
     return ResponseParserOutput(
       question=data.question,
-      answer=data.raw_text.split("svar:")[-1].strip(),
+      answer=data.raw_text,
       model="HuggingFaceTB/SmolLM2-135M-Instruct"
     )
