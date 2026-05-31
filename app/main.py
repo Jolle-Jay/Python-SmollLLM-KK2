@@ -32,7 +32,7 @@ async def ask(body: AskRequest):
     raise HTTPException(status_code=400, detail="Gotta have CSV uploaded")
   
   result = oraklet.invoke(PromptBuilderInput(
-    question=body.question
+    question=body.question,
     stats=data.dataset.describe().to_dict()
   ))
   return result
