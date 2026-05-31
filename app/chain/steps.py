@@ -32,7 +32,10 @@ class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
     Svar:"""
 
 
-    return PromptBuilderOutput(prompt=prompt)
+    return PromptBuilderOutput(
+      prompt=prompt,
+      question=data.question
+      )
   
 class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput ]):
   def invoke(self, data: PromptBuilderOutput) -> LLMRunnerOutput:
