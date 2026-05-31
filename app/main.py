@@ -3,6 +3,7 @@ from .data import load_dataset
 from . import data
 from .schemas import AskRequest
 from .chain.pipeline import oraklet
+from .chain.steps import PromptBuilderInput
 
 app = FastAPI()
 
@@ -30,7 +31,10 @@ async def ask(body: AskRequest):
   if data.dataset is None:
     raise HTTPException(status_code=400, detail="Gotta have CSV uploaded")
   
-  result = oraklet.invoke(AskRequest)
+  result = oraklet.invoke(PromptBuilderInput(
+    question=body.question
+    stats=data.dataset.describe().to_dict()
+  ))
   return result
 
 
