@@ -6,6 +6,8 @@ from .chain.pipeline import oraklet
 from .chain.steps import PromptBuilderInput
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
