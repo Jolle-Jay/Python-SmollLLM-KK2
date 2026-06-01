@@ -17,6 +17,8 @@ async def upload_data(file: UploadFile):
     raise HTTPException(status_code=400, detail="Gotta have a CSV duuuude")
   
   contents = await file.read()
+  if len(contents) > 524288000:
+    raise HTTPException(status_code=400, detail="File is to big maximum is 500mb")
   metadata = load_dataset(contents)
   return metadata
 
