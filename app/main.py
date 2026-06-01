@@ -5,6 +5,7 @@ from .schemas import AskRequest
 from .chain.pipeline import oraklet
 from .chain.steps import PromptBuilderInput
 
+
 app = FastAPI()
 
 @app.get("/health")
