@@ -1,6 +1,7 @@
-from . import steps
+from ..chain.steps import PromptBuilder, PromptBuilderInput
 
-def prompt_builder_test():
-  assert prompt[0]["role"] == "system"
-  assert resp.json()prompt[0]["content"] == "Du är en dataanalytiker svara kortfattat på svenska"
-  assert question == 
+def test_prompt_builder():
+  input = PromptBuilderInput(question="You are a dataanalityc, answer short on these", stats={"age": {"mean": 30.0}})
+  result = PromptBuilder().invoke(input)
+  assert result.question == "You are a dataanalityc, answer short on these"
+  assert result.prompt [0]["role"] == "system"
