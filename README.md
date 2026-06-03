@@ -11,6 +11,7 @@ SmolLLM kan inte ens ge svar, den är så liten och börjar hallucinera direkt, 
 Installerar uv som är en package manager som pip men snabbare.
 
 2. Klona detta repot kör git clone 
+git clone https://github.com/Jolle-Jay/Python-SmollLLM.git
 
 3. I Terminalen kör uv sync
 Då kommer alla dependencies från pyproject.toml att installeras av sig själv och en .venv kommer att skapas
