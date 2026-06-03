@@ -19,6 +19,11 @@ Om någon skulle ladda upp ett dataset med personuppgifter som det är nu efters
 AI-risker och ansvar
 Det ger en stor inverkan på svaren, 135M går inte att gämföra med för att den klarar typ inte att spotta ut något, men en 8.7B t.ex så kan det ge trovärdiga svar som kanske inte alls är så specifika jämfört med gpt-4 modell, även fast du inte kan lita på den modellen heller.
 Biasen spelar stor roll på folk som har skrivit modellen, i denna SMOLLLM tex så läser den av min AI-workforce displacement, eftersom den har blivit tränad på text i Sverige, USA och England så kommer den automatiskt ha bias gäntemot det och prata mer om rika länder förlorar jobb än om dem länderna som den inte har någon intränad data av.
+Till och med när jag skriver "Vilket land har lägst GDP" så säger 1.7B modellen:
+
+ "answer": "Det som är övning är frågan om det är en land med högre GDP. Det är enligt denna data:\n\n{'country_name': 'Sweden', 'gdp_per_capita_usd': 21003.330769230768, 'sector_automation_risk_score': 0.5378805288461538, 'ai_adoption_index': 0.6921477884615385, 'pct_sector_workforce_displaced': 0.05615492788461539, 'pct_sector_workforce_new_roles_created': 0.035631144",}
+
+Den klarar inte av att läsa in och förstå datasetet OCH den har bias eftersom vad jag beskrev ovan.
 Jag testade min modell med mockat test via pytest, det visar att dataflödet mellan stegen är korrekt men det visar inte kvaliteten på modellens svar.
 
 Designval

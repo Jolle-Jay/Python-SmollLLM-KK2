@@ -47,7 +47,7 @@ class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
 class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput ]):
   def invoke(self, data: PromptBuilderOutput) -> LLMRunnerOutput:
     logger.info("Step2 : LLMRunner - Calling a model")
-    pipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-135M-Instruct")
+    pipe = pipeline("text-generation", model="HuggingFaceTB/SmolLM2-1.7B-Instruct")
     result = pipe(data.prompt, max_new_tokens=200)
     return LLMRunnerOutput(raw_text=result[0]["generated_text"][-1]["content"], question=data.question)
   
@@ -57,5 +57,5 @@ class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
     return ResponseParserOutput(
       question=data.question,
       answer=data.raw_text,
-      model="HuggingFaceTB/SmolLM2-135M-Instruct"
+      model="HuggingFaceTB/SmolLM2-1.7B-Instruct"
     )
