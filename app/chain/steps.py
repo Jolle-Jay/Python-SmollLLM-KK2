@@ -50,9 +50,12 @@ class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput ]):
   
 class ResponseParser(Runnable[LLMRunnerOutput, ResponseParserOutput]):
   def invoke(self, data: LLMRunnerOutput) -> ResponseParserOutput:
+    answer = data.raw_text
+    if "Svar:" in answer:
+      answer = answer.split("Svar:")[1].strip()
     logger.info("Step3 : ResponseParser - Parsing the question in to an answer")
     return ResponseParserOutput(
       question=data.question,
-      answer=data.raw_text,
+      answer=answer,
       model="HuggingFaceTB/SmolLM2-1.7B-Instruct"
     )
