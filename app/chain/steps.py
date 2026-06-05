@@ -26,20 +26,16 @@ class ResponseParserOutput(BaseModel):
 class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
   def invoke(self, data: PromptBuilderInput) -> PromptBuilderOutput:
     logger.info("Step1 : PromptBuilder - Building propmt")
-    prompt = f"""Du är en dataanalytiker. Svara kortfattat på svenska.
-    Statistik från dataset:
-    {data.stats}
-    
-    Fråga: {data.question}
+    stats_summary = ""
+    for column, values in data.stats.items():
+      stats_summary += f"{column}: mean={values['mean']:.1f}, min={values['min']:.1f}, max={values['max']:.1f}\n"
 
-    Svar:
-    """
 
 
     return PromptBuilderOutput(
       prompt=[
         {"role": "system", "content": "Du är en datanalytiker, Svara kortfattat på svenska"},
-        {"role": "user", "content": f"Svara på {data.stats} och din fråga kommer att vara {data.question}"}
+        {"role": "user", "content": f"Svara på {stats_summary} och din fråga kommer att vara {data.question}"}
       ],
       question=data.question
       )
