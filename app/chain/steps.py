@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from .runnable import Runnable
 from transformers import pipeline
 import logging
+from typing import ClassVar
 
 logger=logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ class PromptBuilder(Runnable[PromptBuilderInput, PromptBuilderOutput]):
       )
   
 class LLMRunner(Runnable[PromptBuilderOutput, LLMRunnerOutput ]):
-  pipe = pipeline ("text-generation", model="HuggingFaceTB/SmolLM2-1.7B-Instruct")
+  pipe: ClassVar = pipeline ("text-generation", model="HuggingFaceTB/SmolLM2-1.7B-Instruct")
 
   def invoke(self, data: PromptBuilderOutput) -> LLMRunnerOutput:
     logger.info("Step2 : LLMRunner - Calling a model")

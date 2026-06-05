@@ -26,6 +26,10 @@ Till och med när jag skriver "Vilket land har lägst GDP" så säger 1.7B model
 Den klarar inte av att läsa in och förstå datasetet OCH den har bias eftersom vad jag beskrev ovan.
 Jag testade min modell med mockat test via pytest, det visar att dataflödet mellan stegen är korrekt men det visar inte kvaliteten på modellens svar.
 
+Till avslut så finlirade jag lite i prompten jag ändrade i PromptBuilder, loopar igenom data.stats.items och plockar ut kolumnerna och värdena som jag vill så det blir mindre för SMOLLM att gå igenom, därav mindre hallucinering.
+La pipe högst ipp i LLMRunner så att modellen inte måste köras varje gång jag ropar på LLMRunner.
+I responseParser så splittade jag svaret så att allting efter Svar: Ska vissas, inte allting som den spottar ut innan.
+
 Designval
 Runnable mönstret är kraftfullt för att du kan köra classer efter varandra och använda dem som I O, samt om du skulle vilja gå in och ändra så är det inte alls mycket kod som behövs skrivas om, det är mycket mer flexibelt, läsbart OCH det blir inte en såndär Doom Chain.
 Det största tekniska hindret var i LLMRunner, specifikt hur pipe() returnerar data med messages-format.
